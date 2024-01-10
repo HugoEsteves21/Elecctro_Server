@@ -1,0 +1,25 @@
+{
+  "name": "elecctroserver",
+  "version": "1.0.0",
+  "description": "Server Project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HugoEsteves21/Elecctro_Server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HugoEsteves21/Elecctro_Server/issues"
+  },
+  "homepage": "https://github.com/HugoEsteves21/Elecctro_Server#readme",
+  "dependencies": {
+    "@hapi/eslint-plugin": "^6.0.0",
+    "@hapi/hapi": "^21.3.2",
+    "knex": "^3.1.0",
+    "pg": "^8.11.3"
+  }
+}
