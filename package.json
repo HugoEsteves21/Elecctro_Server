@@ -4,6 +4,8 @@
   "description": "Server Project",
   "main": "server.js",
   "scripts": {
+    "migrate": "npx knex migrate:latest --knexfile database/knexfile.js",
+    "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

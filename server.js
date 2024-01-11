@@ -1,5 +1,6 @@
 "use strict";
 
+const todoController = require("./controller/todo");
 const Hapi = require("@hapi/hapi");
 
 const init = async () => {
@@ -8,7 +9,7 @@ const init = async () => {
     host: "localhost",
   });
 
-  server.route({
+  /*   server.route({
     method: "GET",
     path: "/user/{id}",
     handler: (req, h) => {
@@ -17,15 +18,19 @@ const init = async () => {
       let redirection = h.redirect("/");
       return `Hello ${user}`;
     },
-  });
+  }); */
 
   server.route({
     method: "GET",
     path: "/todos",
     handler: (req, h) => {
-      let filter = req.query.filter;
+      return todoController.getTodos(req, h);
+
+      // let filter = req.query.filter ? req.query.filter : '';
+
+      /* let filter = req.query.filter;
       let orderBy = req.query.orderBy;
-      return "<h1>Hello World!</h1>";
+      return "<h1>Hello World!</h1>"; */
     },
   });
 
@@ -33,14 +38,7 @@ const init = async () => {
     method: "POST",
     path: "/todos",
     handler: (req, h) => {
-      const payload = req.payload;
-      const description = payload.description;
-      const state = payload.state;
-      const createdAt = payload.createdAt;
-      const completedAt = payload.completedAt;
-      const id = payload.id;
-
-      return "Hello World!";
+      return todoController.createTodo(req, h);
     },
   });
 
