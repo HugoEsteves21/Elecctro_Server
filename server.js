@@ -24,13 +24,7 @@ const init = async () => {
     method: "GET",
     path: "/todos",
     handler: (req, h) => {
-      return todoController.getTodos(req, h);
-
-      // let filter = req.query.filter ? req.query.filter : '';
-
-      /* let filter = req.query.filter;
-      let orderBy = req.query.orderBy;
-      return "<h1>Hello World!</h1>"; */
+      return todoController.getToDos(req, h);
     },
   });
 
@@ -38,7 +32,7 @@ const init = async () => {
     method: "POST",
     path: "/todos",
     handler: (req, h) => {
-      return todoController.createTodo(req, h);
+      return todoController.createToDo(req, h);
     },
   });
 
@@ -46,10 +40,7 @@ const init = async () => {
     method: "PATCH",
     path: "/todo/{id}",
     handler: (req, h) => {
-      let user = req.params.id;
-
-      if (user) return "Hello World!";
-      else return "Error!";
+      return todoController.patchToDo(req, h);
     },
   });
 
@@ -57,7 +48,7 @@ const init = async () => {
     method: "DELETE",
     path: "/todo/{id}",
     handler: (req, h) => {
-      return "Hello World!";
+      return todoController.deleteToDo(req, h);
     },
   });
 

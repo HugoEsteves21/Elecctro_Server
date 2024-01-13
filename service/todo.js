@@ -4,13 +4,44 @@ class ToDoService {
   // this layer is supposed to know of the existence of the db but not connect with it
   // in here , there's the logic and knowledge og what to do
 
-  createTodo(description) {
+  createToDo(req) {
+    const description = req.payload.description;
     const state = "INCOMPLETE";
-    return todoDAO.createTodo(description, state);
+
+    return todoDAO.createToDo(description, state);
   }
 
-  getTodos() {
-    return todoDAO.getTodos();
+  getToDos(req) {
+    const filter = req.query.filter ? req.query.filter : "ALL";
+    const order = req.query.orderBy ? req.query.orderBy : "created_at";
+
+    if (filter === "ALL") return todoDAO.getToDos(order);
+
+    return todoDAO.getToDosFiltered(filter, order);
+  }
+
+  patchToDo(req, h) {
+    if (!req.payload.description && !req.payload.state)
+      return h
+        .response("404 Error! No description or state provided")
+        .code(404);
+
+    const id = req.params.id;
+    const description = req.payload.description ? req.payload.description : "";
+    const state = req.payload.state ? req.payload.state : "";
+
+    if (description !== "" && state === "")
+      return todoDAO.patchDescription(id, description, h);
+    else if (description === "" && state !== "")
+      return todoDAO.patchState(id, state);
+
+    return todoDAO.patchDescriptionAndState(id, description, state);
+  }
+
+  deleteToDo(req, h) {
+    const id = req.params.id;
+
+    return todoDAO.deleteToDo(id, h);
   }
 }
 
