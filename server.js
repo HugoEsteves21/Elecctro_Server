@@ -5,13 +5,19 @@ const Inert = require("@hapi/inert");
 const Vision = require("@hapi/vision");
 const HapiSwagger = require("hapi-swagger");
 const Pack = require("./package");
+const cors = require("cors");
 const routes = require("./routes/index");
 
 const init = async () => {
   const server = Hapi.server({
     port: 5000,
     host: "localhost",
+    routes: {
+      cors: true,
+    },
   });
+
+  /* server.use(cors()); */
 
   const swaggerOptions = {
     info: {
