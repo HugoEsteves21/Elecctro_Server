@@ -1,7 +1,11 @@
 "use strict";
 
-const todoController = require("./controller/todo");
 const Hapi = require("@hapi/hapi");
+const Inert = require("@hapi/inert");
+const Vision = require("@hapi/vision");
+const HapiSwagger = require("hapi-swagger");
+const Pack = require("./package");
+const routes = require("./routes/index");
 
 const init = async () => {
   const server = Hapi.server({
@@ -9,56 +13,23 @@ const init = async () => {
     host: "localhost",
   });
 
-  /*   server.route({
-    method: "GET",
-    path: "/user/{id}",
-    handler: (req, h) => {
-      let user = req.params.id;
-
-      let redirection = h.redirect("/");
-      return `Hello ${user}`;
+  const swaggerOptions = {
+    info: {
+      title: "Test API Documentation",
+      version: Pack.version,
     },
-  }); */
+  };
 
-  server.route({
-    method: "GET",
-    path: "/todos",
-    handler: (req, h) => {
-      return todoController.getToDos(req, h);
+  await server.register([
+    Inert,
+    Vision,
+    {
+      plugin: HapiSwagger,
+      options: swaggerOptions,
     },
-  });
+  ]);
 
-  server.route({
-    method: "POST",
-    path: "/todos",
-    handler: (req, h) => {
-      return todoController.createToDo(req, h);
-    },
-  });
-
-  server.route({
-    method: "PATCH",
-    path: "/todo/{id}",
-    handler: (req, h) => {
-      return todoController.patchToDo(req, h);
-    },
-  });
-
-  server.route({
-    method: "DELETE",
-    path: "/todo/{id}",
-    handler: (req, h) => {
-      return todoController.deleteToDo(req, h);
-    },
-  });
-
-  server.route({
-    method: "GET",
-    path: "/{any*}",
-    handler: (req, h) => {
-      return "<h1>Wrong page!</h1>";
-    },
-  });
+  server.route(routes);
 
   await server.start();
   console.log("Server running on %s", server.info.uri);
