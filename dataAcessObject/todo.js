@@ -12,14 +12,24 @@ class ToDoDAO {
       .returning("*");
   }
 
-  async getToDosFiltered(filter, order) {
+  async getToDosFiltered(filter) {
     return await database("todo")
       .where("state", "=", filter)
-      .orderBy(order, "asc");
+      .orderBy("created_at", "asc");
   }
 
-  async getToDos(order) {
-    return await database("todo").orderBy(order, "asc");
+  async getToDosOrdered(order, direction) {
+    return await database("todo").orderBy(order, direction);
+  }
+
+  async getToDosFilteredAndOrdered(filter, order, direction) {
+    return await database("todo")
+      .where("state", "=", filter)
+      .orderBy(order, direction);
+  }
+
+  async getToDos() {
+    return await database("todo");
   }
 
   async patchDescription(id, description, h) {

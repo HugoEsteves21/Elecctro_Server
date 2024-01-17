@@ -17,8 +17,6 @@ const init = async () => {
     },
   });
 
-  /* server.use(cors()); */
-
   const swaggerOptions = {
     info: {
       title: "Test API Documentation",

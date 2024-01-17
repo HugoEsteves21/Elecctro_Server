@@ -16,8 +16,15 @@ module.exports = [
         query: Joi.object({
           filter: Joi.string().valid("COMPLETE", "INCOMPLETE").optional(),
           orderBy: Joi.string()
-            .valid("description", "created_at", "completed_at")
-            .optional(),
+            .valid(
+              "description",
+              "descriptionDesc",
+              "created_at",
+              "completed_at"
+            )
+            .optional()
+            .default("created_at"),
+          direction: Joi.string().valid("asc", "desc").default("asc"),
         }),
       },
       response: {

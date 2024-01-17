@@ -13,11 +13,17 @@ class ToDoService {
 
   getToDos(req) {
     const filter = req.query.filter ? req.query.filter : "ALL";
-    const order = req.query.orderBy ? req.query.orderBy : "created_at";
+    const order = req.query.orderBy ? req.query.orderBy : "";
+    const direction = req.query.direction;
 
-    if (filter === "ALL") return todoDAO.getToDos(order);
+    if (filter !== "ALL" && order !== "")
+      return todoDAO.getToDosFilteredAndOrdered(filter, order, direction);
 
-    return todoDAO.getToDosFiltered(filter, order);
+    if (filter !== "ALL") return todoDAO.getToDosFiltered(filter);
+
+    if (order !== "") return todoDAO.getToDosOrdered(order, direction);
+
+    return todoDAO.getToDos();
   }
 
   patchToDo(req, h) {
